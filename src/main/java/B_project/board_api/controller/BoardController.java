@@ -47,4 +47,11 @@ public class BoardController {
         return ResponseEntity.ok().build(); // build(): 본문 없이 단순 성공 여부만 알려줌
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBoard(@PathVariable("id") Long boardId) {
+        boardService.deleteBoard(boardId);
+        return ResponseEntity.ok().build();
+//        return ResponseEntity.noContent().build(); // 204 no content
+    }
+
 }
