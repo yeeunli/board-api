@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Getter @Setter
 @RestController // Json 타입으로 값을 반환해주는 RestController
                 // @Controller: view 값(ex. html)을 바로 끌고 와주는 컨트롤러
@@ -31,7 +34,13 @@ public class BoardController {
 
         Long boardId= boardService.createBoard(boardPostDto); // 서비스야 Id 리턴해줘, 우리 boardId 필요하거든~
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(boardId);
+        Map<String, Long> postBoard = new HashMap<>();
+        postBoard.put("id", boardId);
+
+        return ResponseEntity.ok(postBoard);
+
+//        return ResponseEntity.ok(boardId);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(boardId);
     }
 
 }
