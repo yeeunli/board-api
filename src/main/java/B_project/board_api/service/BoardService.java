@@ -1,10 +1,13 @@
 package B_project.board_api.service;
 
 import B_project.board_api.dto.BoardPostDto;
+import B_project.board_api.dto.BoardUpdateDto;
 import B_project.board_api.entity.Board;
 import B_project.board_api.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.NoSuchElementException;
 
 @Service // 내가 서비스다 !! 비즈니스 로직을 담당하지
 @RequiredArgsConstructor // 생성자 중 final과 같은 필수 인자 생성
@@ -19,5 +22,23 @@ public class BoardService {
         board.setContent(boardPostDto.getContent());
 
         return boardRepository.save(board).getBoardId(); // 레포지토리에 board 엔티티를 save한 뒤, Id를 받아서 Long 타입으로 반환하자
+    }
+
+    public Board findByBoardId(Long boardId) {
+        // findById 메서드가 Optional<Board> 타입을 반환하기에
+        // Board가 없는 경우도 처리해줘야함
+        // 자비: 타입 불일치 -> 에러 발생
+        return boardRepository.findById(boardId)
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 게시물입니다. Id: " + boardId));
+    }
+
+    public Long updateBoard(BoardUpdateDto boardUpdateDto, Long boardId) {
+
+        Board board = findByBoardId(boardId); // boardId에 맞는 board 들고오자
+
+        board.setTitle(boardUpdateDto.getTitle()); // board 엔티티에 수정된 title을 넣어주자
+        board.setContent(boardUpdateDto.getContent());
+
+        return boardRepository.save(board).getBoardId();
     }
 }

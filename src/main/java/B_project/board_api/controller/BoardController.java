@@ -1,17 +1,14 @@
 package B_project.board_api.controller;
 
 import B_project.board_api.dto.BoardPostDto;
+import B_project.board_api.dto.BoardUpdateDto;
 import B_project.board_api.service.BoardService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +38,13 @@ public class BoardController {
 
 //        return ResponseEntity.ok(boardId);
 //        return ResponseEntity.status(HttpStatus.CREATED).body(boardId);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateBoard(@PathVariable("id") Long boardId, @RequestBody @Validated BoardUpdateDto boardUpdateDto) {
+        boardService.updateBoard(boardUpdateDto, boardId);
+
+        return ResponseEntity.ok().build(); // build(): 본문 없이 단순 성공 여부만 알려줌
     }
 
 }
