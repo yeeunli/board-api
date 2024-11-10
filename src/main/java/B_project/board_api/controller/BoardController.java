@@ -2,15 +2,18 @@ package B_project.board_api.controller;
 
 import B_project.board_api.dto.BoardPostDto;
 import B_project.board_api.dto.BoardUpdateDto;
+import B_project.board_api.entity.Board;
 import B_project.board_api.service.BoardService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Getter @Setter
@@ -38,6 +41,23 @@ public class BoardController {
 
 //        return ResponseEntity.ok(boardId);
 //        return ResponseEntity.status(HttpStatus.CREATED).body(boardId);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Board> getBoard(@PathVariable("id") Long boardId) {
+        try {
+            Board board = boardService.findByBoardId(boardId);
+            return ResponseEntity.ok().body(board);
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Board>> getBoardList() {
+        List<Board> boards = boardService.findAllBoards();
+        return ResponseEntity.ok().body(boards);
     }
 
     @PatchMapping("/{id}")
