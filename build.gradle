@@ -31,9 +31,11 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0' // swagger-ui 적용
 
 	// H2 DB
 	implementation 'com.h2database:h2'
+
 }
 
 tasks.named('test') {
